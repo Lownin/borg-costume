@@ -3,7 +3,7 @@
   #include <avr/power.h>
 #endif
 
-#define PIN 8
+#define PIN 0
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
