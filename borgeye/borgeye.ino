@@ -1,4 +1,5 @@
-#include <Adafruit_NeoPixel.h>
+//#include <Adafruit_NeoPixel.h>
+#include <Adafruit_NeoPixel_ZeroDMA.h>
 #ifdef __AVR__
   #include <avr/power.h>
 #endif
@@ -13,7 +14,8 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(12, PIN, NEO_RGBW + NEO_KHZ800);
+//Adafruit_NeoPixel strip = Adafruit_NeoPixel(12, PIN, NEO_RGBW + NEO_KHZ800);
+Adafruit_NeoPixel_ZeroDMA strip(12, PIN, NEO_GRBW);
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
@@ -46,7 +48,7 @@ void borgEye(uint32_t c, uint16_t wait) {
 
 void paintGlow() {
   for(uint16_t i=0; i<strip.numPixels(); i++) {    
-    strip.setPixelColor(i, random(2, 2), 0, 0, 0);    
+    strip.setPixelColor(i, 0, random(2, 2), 0, 0);    
   }
 }
 
@@ -80,4 +82,3 @@ void paintScan(uint16_t i, uint32_t c) {
 void showRing() {
    strip.show();
 }
-
