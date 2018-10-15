@@ -18,7 +18,7 @@ unsigned long ledInterval = random(0,4);
 // Servo init
 Servo myservo;  // create servo object to control a servo
 int pos = 0;    // variable to store the servo position
-unsigned long servoInterval = random(2000,16000);
+unsigned long servoInterval = random(2000,6000);
 unsigned long ledPreviousMillis = 0;        // will store last time LED was updated
 unsigned long servoPreviousMillis = 0;        // will store last time servo was updated
 
@@ -27,7 +27,7 @@ void setup() {
   strip.show(); // Initialize all pixels to 'off'
   //strip.setBrightness(8);
   strip.show(); // Initialize all pixels to 'off'
-  myservo.attach(2);  // attaches the servo on pin 10 to the servo object
+  myservo.attach(1);  // attaches the servo on pin 10 to the servo object
 
 }
 
@@ -57,7 +57,7 @@ void paintScan(uint16_t i, uint32_t c) {
   for(uint16_t f=0; f < 2; f++) {
       if (currentMillis - ledPreviousMillis >= ledInterval) {
       ledPreviousMillis = currentMillis;
-      strip.setPixelColor(i, 0, random(0, 0), 0, random(0, 4));
+      strip.setPixelColor(i, 0, random(0, 0), 0, random(0, 64));
       showRing();
       //ledInterval = random(0,4);
       //delay(random(0,4));
@@ -74,7 +74,7 @@ void borgServo () {
   unsigned long currentMillis = millis();
   if (currentMillis - servoPreviousMillis >= servoInterval) {
     //myservo.attach(8);
-    pos = random(0, 170);
+    pos = random(110, 170);
     servoPreviousMillis = currentMillis;    
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     //delay(random(1000,5000));        // waits some random time for the servo to reach the position
