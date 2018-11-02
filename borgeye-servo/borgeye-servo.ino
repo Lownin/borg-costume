@@ -13,21 +13,21 @@
 //Adafruit_NeoPixel strip = Adafruit_NeoPixel(12, PIN, NEO_RGBW + NEO_KHZ800);
 Adafruit_NeoPixel_ZeroDMA strip(12, PIN, NEO_GRBW);
 
-unsigned long ledInterval = random(0,4);
+unsigned long ledInterval = random(0,4); // for randomized flicker
   
 // Servo init
 Servo myservo;  // create servo object to control a servo
 int pos = 0;    // variable to store the servo position
-unsigned long servoInterval = random(2000,6000);
+unsigned long servoInterval = random(2000,6000);  // will store randomized servo movement interval
 unsigned long ledPreviousMillis = 0;        // will store last time LED was updated
 unsigned long servoPreviousMillis = 0;        // will store last time servo was updated
 
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
-  //strip.setBrightness(8);
+  //strip.setBrightness(8); hard coded brightness because I was in a hurry
   strip.show(); // Initialize all pixels to 'off'
-  myservo.attach(1);  // attaches the servo on pin 10 to the servo object
+  myservo.attach(1);  // attaches the servo on pin 1 to the servo object
 
 }
 
@@ -36,8 +36,7 @@ void loop() {
   borgServo();
 }
 
-// Fill the dots one after the other with a color
-void borgEye(uint32_t c, uint16_t wait) {
+void borgEye(uint32_t c, uint16_t wait) { // calls fucntion for each light in the eye
   for(uint16_t i=0; i<strip.numPixels(); i++) {
     paintGlow();
     paintScan(i, c);
@@ -45,14 +44,14 @@ void borgEye(uint32_t c, uint16_t wait) {
   }  
 }
 
-void paintGlow() {
+void paintGlow() {  // Fill the dots one after the other with a color
   for(uint16_t i=0; i<strip.numPixels(); i++) {    
     strip.setPixelColor(i, 0, 2, 0, 0);
     strip.show();    
   }
 }
 
-void paintScan(uint16_t i, uint32_t c) {
+void paintScan(uint16_t i, uint32_t c) {  // draws random(ish) flickering white lights over the top of the solid ring color
   unsigned long currentMillis = millis();
   for(uint16_t f=0; f < 2; f++) {
       if (currentMillis - ledPreviousMillis >= ledInterval) {
@@ -78,7 +77,9 @@ void borgServo () {
     servoPreviousMillis = currentMillis;    
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     //delay(random(1000,5000));        // waits some random time for the servo to reach the position
-    Serial.println(pos);
+    //Serial.print("pos: "); Serial.println(pos);   Serial.print(" ");
+    //Serial.print("Interval: "); Serial.println(servoInterval);   Serial.print(" ");
+    servoInterval = random(700,10000);
     //delay(50);
     //myservo.detach();
   }
